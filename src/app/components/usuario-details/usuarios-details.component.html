@@ -1,0 +1,86 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentUsuario.id">
+    <h4>Usuario</h4>
+    <div>
+      <label><strong>Nombre:</strong></label> {{ currentUsuario.nombre }}
+    </div>
+    <div>
+      <label><strong>Email:</strong></label>
+      {{ currentUsuario.email }}
+    </div>
+    <div>
+      <label><strong>Estado:</strong></label>
+      {{ currentUsuario.estado ? "Activo" : "Inactivo" }}
+    </div>
+    <a
+      class="badge badge-warning"
+      routerLink="/usuarios/{{ currentUsuario.id }}"
+    >
+      Editar
+    </a>
+  </div>
+  <div *ngIf="!currentUsuario">
+    <br />
+    <p>Haga Click en un Usuario...</p>
+  </div>
+</div>
+<ng-template #editable>
+  <div *ngIf="currentUsuario.id" class="edit-form">
+    <h4>Usuario</h4>
+    <form>
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          [(ngModel)]="currentUsuario.nombre"
+          name="nombre"
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          [(ngModel)]="currentUsuario.email"
+          name="email"
+        />
+      </div>
+      <div class="form-group">
+        <label><strong>Estado:</strong></label>
+        {{ currentUsuario.estado ? "Activo" : "Inactivo" }}
+      </div>
+    </form>
+    <button
+      class="badge badge-primary mr-2"
+      *ngIf="currentUsuario.estado"
+      (click)="updateEstado(false)"
+    >
+      Inactivar
+    </button>
+    <button
+      *ngIf="!currentUsuario.estado"
+      class="badge badge-primary mr-2"
+      (click)="updateEstado(true)"
+    >
+      Activar
+    </button>
+    <button class="badge badge-danger mr-2" (click)="deleteUsuario()">
+      Borrar
+    </button>
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateUsuario()"
+    >
+      Actualizar
+    </button>
+    <p>{{ message }}</p>
+  </div>
+  <div *ngIf="!currentUsuario.id">
+    <br />
+    <p>No se puede accesar a este usuario...</p>
+  </div>
+</ng-template>
